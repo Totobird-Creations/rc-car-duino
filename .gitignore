@@ -1,2 +1,5 @@
 /arduino/target
 /arduino/Cargo.lock
+
+/controller/.import
+/controller/**/*.import
