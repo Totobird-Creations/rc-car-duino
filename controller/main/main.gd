@@ -2,12 +2,49 @@ extends Control
 
 
 
-var touches : Dictionary = {}
+var touches : = {}
 
 
 
 func _physics_process(delta : float):
-	pass
+	var accelerations := []
+	var turns         := []
+	for touch in touches.values():
+		if (
+			touch.x >= $control/acceleration.rect_global_position.x &&
+			touch.y >= $control/acceleration.rect_global_position.y &&
+			touch.x <= $control/acceleration.rect_global_position.x + $control/acceleration.rect_size.x &&
+			touch.y <= $control/acceleration.rect_global_position.y + $control/acceleration.rect_size.y
+		):
+			accelerations.append((touch.y - $control/acceleration.rect_global_position.y) / $control/acceleration.rect_size.y)
+		elif (
+			touch.x >= $control/turn.rect_global_position.x &&
+			touch.y >= $control/turn.rect_global_position.y &&
+			touch.x <= $control/turn.rect_global_position.x + $control/turn.rect_size.x &&
+			touch.y <= $control/turn.rect_global_position.y + $control/turn.rect_size.y
+		):
+			turns.append((touch.x - $control/turn.rect_global_position.x) / $control/turn.rect_size.x)
+
+	var final_acceleration := 0.5
+	if (len(accelerations) > 0):
+		final_acceleration = 0.0
+		for acceleration in accelerations:
+			final_acceleration += acceleration
+		final_acceleration /= len(accelerations)
+	var final_turn := 0.5
+	if (len(turns) > 0):
+		final_turn = 0.0
+		for turn in turns:
+			final_turn += turn
+		final_turn /= len(turns)
+
+	var previous := $control/acceleration/background.material.get_shader_param("position") as Vector2
+	var target   := Vector2(final_turn, final_acceleration)
+	var current  := previous.move_toward(target, previous.distance_to(target) * delta * 15.0)
+
+	$control/acceleration/background.material.set_shader_param("position", current)
+	$control/info/background.material.set_shader_param("position", current)
+	$control/turn/background.material.set_shader_param("position", current)
 
 
 

@@ -16,8 +16,8 @@ fn main() -> ! {
     let     pins  = arduino_hal::pins!(dp);
     let mut adc   = arduino_hal::Adc::new(dp.ADC, Default::default());
 
-    let mut input = pins.a0.into_analog_input(&mut adc);
-    let     servo = servo::Servo::new(pins.d9, dp.TC1);
+    let input = pins.a0.into_analog_input(&mut adc);
+    let servo = servo::Servo::new(pins.d9, dp.TC1);
 
     loop {
         let value = input.analog_read(&mut adc);

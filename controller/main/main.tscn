@@ -1,6 +1,31 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://main/main.gd" type="Script" id=1]
+[ext_resource path="res://shader/acceleration.gdshader" type="Shader" id=2]
+[ext_resource path="res://shader/turn.tres" type="Shader" id=3]
+[ext_resource path="res://shader/info.tres" type="Shader" id=4]
+[ext_resource path="res://shader/arrow.tres" type="Shader" id=5]
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 2 )
+shader_param/background = Color( 0.1, 0.1, 0.1, 1 )
+shader_param/accent = Color( 0, 1, 0, 1 )
+shader_param/position = Vector2( 0.5, 0.5 )
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 4 )
+shader_param/background = Color( 0.1, 0.1, 0.1, 1 )
+shader_param/accent = Color( 0, 1, 0, 1 )
+shader_param/position = Vector2( 0.5, 0.5 )
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = ExtResource( 5 )
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = ExtResource( 3 )
+shader_param/background = Color( 0.1, 0.1, 0.1, 1 )
+shader_param/accent = Color( 0, 1, 0, 1 )
+shader_param/position = Vector2( 0.5, 0.5 )
 
 [node name="main" type="Control"]
 anchor_right = 1.0
@@ -21,10 +46,11 @@ margin_right = -480.0
 margin_bottom = 448.0
 
 [node name="background" type="ColorRect" parent="control/acceleration"]
+material = SubResource( 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="center" type="Control" parent="control"]
+[node name="info" type="Control" parent="control"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -34,9 +60,25 @@ margin_top = -448.0
 margin_right = 448.0
 margin_bottom = 448.0
 
-[node name="background" type="ColorRect" parent="control/center"]
+[node name="background" type="ColorRect" parent="control/info"]
+material = SubResource( 4 )
 anchor_right = 1.0
 anchor_bottom = 1.0
+
+[node name="arrow" type="Control" parent="control/info"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+
+[node name="center" type="ColorRect" parent="control/info/arrow"]
+material = SubResource( 5 )
+margin_left = -64.0
+margin_top = -64.0
+margin_right = 64.0
+margin_bottom = 64.0
+
+[node name="animation" type="AnimationPlayer" parent="control/info/arrow"]
 
 [node name="turn" type="Control" parent="control"]
 anchor_left = 0.5
@@ -49,5 +91,6 @@ margin_right = -32.0
 margin_bottom = 448.0
 
 [node name="background" type="ColorRect" parent="control/turn"]
+material = SubResource( 3 )
 anchor_right = 1.0
 anchor_bottom = 1.0
