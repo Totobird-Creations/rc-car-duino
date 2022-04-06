@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://main/main.gd" type="Script" id=1]
 [ext_resource path="res://shader/acceleration.gdshader" type="Shader" id=2]
@@ -20,6 +20,87 @@ shader_param/position = Vector2( 0.5, 0.5 )
 
 [sub_resource type="ShaderMaterial" id=5]
 shader = ExtResource( 5 )
+
+[sub_resource type="Animation" id=7]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("back:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.25 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("center:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.25 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("front:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.25 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "main"
+length = 0.75
+loop = true
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath("back:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.25 ), Color( 1, 1, 1, 0.25 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("center:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Color( 1, 1, 1, 0.25 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.25 ), Color( 1, 1, 1, 0.25 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("front:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ Color( 1, 1, 1, 0.25 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.25 ) ]
+}
 
 [sub_resource type="ShaderMaterial" id=3]
 shader = ExtResource( 3 )
@@ -71,14 +152,33 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 
+[node name="front" type="ColorRect" parent="control/info/arrow"]
+modulate = Color( 1, 1, 1, 0.25 )
+material = SubResource( 5 )
+margin_left = -64.0
+margin_top = -112.0
+margin_right = 64.0
+margin_bottom = 16.0
+
 [node name="center" type="ColorRect" parent="control/info/arrow"]
+modulate = Color( 1, 1, 1, 0.25 )
 material = SubResource( 5 )
 margin_left = -64.0
 margin_top = -64.0
 margin_right = 64.0
 margin_bottom = 64.0
 
+[node name="back" type="ColorRect" parent="control/info/arrow"]
+modulate = Color( 1, 1, 1, 0.25 )
+material = SubResource( 5 )
+margin_left = -64.0
+margin_top = -16.0
+margin_right = 64.0
+margin_bottom = 112.0
+
 [node name="animation" type="AnimationPlayer" parent="control/info/arrow"]
+anims/RESET = SubResource( 7 )
+anims/main = SubResource( 6 )
 
 [node name="turn" type="Control" parent="control"]
 anchor_left = 0.5

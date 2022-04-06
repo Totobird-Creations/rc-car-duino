@@ -1,4 +1,13 @@
 [gd_resource type="Shader" format=2]
 
 [resource]
-code = "shader_type canvas_item;"
+code = "shader_type canvas_item;
+
+
+void fragment() {
+	COLOR = vec4(0.0);
+	if (abs(UV.y - 0.3 - abs(UV.x - 0.5) / 1.5) < 0.1) {
+		COLOR = vec4(1.0);
+	}
+}
+"
