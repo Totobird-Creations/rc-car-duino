@@ -2,7 +2,20 @@ extends Control
 
 
 
+export(bool) var connected : bool = false setget set_connected
+
 var touches : = {}
+
+
+
+func set_connected(value : bool) -> void:
+	connected = value
+	if (get_node_or_null("disconnected/toggle")):
+		if (connected):
+			$disconnected/toggle.play_backwards("main")
+			$disconnected/timer.start()
+		else:
+			$disconnected/toggle.play("main")
 
 
 
@@ -26,17 +39,19 @@ func _physics_process(delta : float):
 			turns.append((touch.x - $control/turn.rect_global_position.x) / $control/turn.rect_size.x)
 
 	var final_acceleration := 0.5
-	if (len(accelerations) > 0):
-		final_acceleration = 0.0
-		for acceleration in accelerations:
-			final_acceleration += acceleration
-		final_acceleration /= len(accelerations)
-	var final_turn := 0.5
-	if (len(turns) > 0):
-		final_turn = 0.0
-		for turn in turns:
-			final_turn += turn
-		final_turn /= len(turns)
+	var final_turn         := 0.5
+
+	if (connected):
+		if (len(accelerations) > 0):
+			final_acceleration = 0.0
+			for acceleration in accelerations:
+				final_acceleration += acceleration
+			final_acceleration /= len(accelerations)
+		if (len(turns) > 0):
+			final_turn = 0.0
+			for turn in turns:
+				final_turn += turn
+			final_turn /= len(turns)
 
 	var previous := $control/acceleration/background.material.get_shader_param("position") as Vector2
 	var target   := Vector2(final_turn, final_acceleration)
@@ -57,3 +72,8 @@ func _input(event : InputEvent) -> void:
 
 	elif (event is InputEventScreenDrag):
 		touches[event.index] = event.position
+
+
+
+func attempt_connect():
+	set_connected(true)
