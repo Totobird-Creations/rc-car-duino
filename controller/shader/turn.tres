@@ -19,13 +19,16 @@ vec4 interpolate(vec4 a, vec4 b, float t) {
 
 
 void fragment() {
+	float v = (
+		(UV.y - 1.0) / ((position.y - 1.0) / ((position.x * 2.0 - 0.5) - 0.5)) + 0.5
+	);
+	if (position.x == 0.5) {
+		v = 0.5;
+	}
 	COLOR = interpolate(
 		background,
 		accent,
-		max(
-			pow(1.0 - distance(UV, position) * 5.0, 5.0) * 1.5,
-			pow(1.0 - abs(UV.x - position.x) * 2.0, 50.0)
-		)
+		pow(1.0 - abs(UV.x - v) * 2.0, 50.0)
 	);
 }
 "

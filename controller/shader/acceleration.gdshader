@@ -19,9 +19,6 @@ void fragment() {
 	COLOR = interpolate(
 		background,
 		accent,
-		max(
-			pow(1.0 - distance(UV, position) * 5.0, 5.0) * 1.5,
-			pow(1.0 - abs(UV.y - position.y) * 3.0, 50.0)
-		)
+		pow(1.0 - abs(UV.y - position.y) * 3.0, 50.0)
 	);
 }
