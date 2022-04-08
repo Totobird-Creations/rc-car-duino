@@ -5,3 +5,6 @@
 /controller/**/*.import
 /controller/export_presets.cfg
 /controller/android
+/controller/.gdignore/gdnative/.sconsign.dblite
+/controller/.gdignore/gdnative/src/*.os
+/controller/.gdignore/export

@@ -2,20 +2,55 @@ extends Control
 
 
 
-export(bool) var connected : bool = false setget set_connected
+const LOG_LINE : PackedScene = preload('res://main/log_line.tscn')
+
+
+
+enum State {
+	Disconnected,
+	Connecting,
+	Connected
+}
+export(int, 'Disconnected', 'Connecting', 'Connected') var state : int = State.Disconnected setget set_state
 
 var touches : = {}
 
 
 
-func set_connected(value : bool) -> void:
-	connected = value
-	if (get_node_or_null("disconnected/toggle")):
-		if (connected):
+func set_state(value : int) -> void:
+	if (get_node_or_null("disconnected")):
+		if (state == State.Disconnected && value == State.Connecting):
+			$disconnected/connect/toggle.play("main")
+			$disconnected/connect/timer.start()
+			$connector.connecting = true
+		elif (state == State.Connecting && value == State.Disconnected):
+			$disconnected/connect/toggle.play_backwards("main")
+			$disconnected/connect/timer.stop()
+			$connector.connecting = false
+		elif (state == State.Connecting && value == State.Connected):
+			$disconnected/connect/toggle.play_backwards("main")
 			$disconnected/toggle.play_backwards("main")
-			$disconnected/timer.start()
-		else:
+			$disconnected/connect/timer.stop()
+			$connector.connecting = false
+		elif (state == State.Connected && value == State.Disconnected):
 			$disconnected/toggle.play("main")
+	state = value
+
+func attempt_connect() -> void:
+	add_log("Connecting...")
+	set_state(State.Connecting)
+
+func attempt_connect_timeout() -> void:
+	add_log("Connection Timout")
+	set_state(State.Disconnected)
+
+func connected() -> void:
+	add_log("Connection Established")
+	set_state(State.Connected)
+
+func disconnected() -> void:
+	add_log("Connection Lost")
+	set_state(State.Disconnected)
 
 
 
@@ -41,7 +76,7 @@ func _physics_process(delta : float):
 	var final_acceleration := 0.5
 	var final_turn         := 0.5
 
-	if (connected):
+	if (state == State.Connected):
 		if (len(accelerations) > 0):
 			final_acceleration = 0.0
 			for acceleration in accelerations:
@@ -75,5 +110,11 @@ func _input(event : InputEvent) -> void:
 
 
 
-func attempt_connect():
-	set_connected(true)
+func add_log(text : String) -> void:
+	var max_logs := 10
+	var instance := LOG_LINE.instance()
+	instance.set_text(text)
+	$control/info/log.add_child(instance)
+	if ($control/info/log.get_child_count() > max_logs):
+		for i in range($control/info/log.get_child_count() - max_logs):
+			$control/info/log.get_child(i).hide()

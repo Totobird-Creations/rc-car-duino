@@ -1,0 +1,7 @@
+[submodule "controller/.gdignore/gdnative/godot-headers"]
+	path = controller/.gdignore/gdnative/godot-headers
+	url = https://github.com/godotengine/godot-headers.git
+[submodule "controller/.gdignore/gdnative/godot-cpp"]
+	path = controller/.gdignore/gdnative/godot-cpp
+	url = https://github.com/godotengine/godot-cpp
+	branch = 3.x
