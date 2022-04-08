@@ -1,19 +1,28 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://main/main.gd" type="Script" id=1]
 [ext_resource path="res://shader/acceleration.tres" type="Shader" id=2]
 [ext_resource path="res://shader/turn.tres" type="Shader" id=3]
 [ext_resource path="res://shader/info.tres" type="Shader" id=4]
-[ext_resource path="res://shader/arrow.tres" type="Shader" id=5]
-[ext_resource path="res://font/main.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://font/main.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://shader/redify.tres" type="Shader" id=6]
 [ext_resource path="res://shader/loading.tres" type="Shader" id=7]
 [ext_resource path="res://main/connector.gdns" type="Script" id=8]
 
 [sub_resource type="ShaderMaterial" id=20]
 shader = ExtResource( 2 )
 shader_param/background = Color( 0.1, 0.1, 0.1, 1 )
-shader_param/accent = Color( 1, 0, 0, 1 )
+shader_param/accent = Color( 0, 1, 0, 1 )
 shader_param/position = Vector2( 0.5, 0.5 )
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = ExtResource( 3 )
+shader_param/background = Color( 0.1, 0.1, 0.1, 1 )
+shader_param/accent = Color( 0, 1, 0, 1 )
+shader_param/position = Vector2( 0.5, 0.5 )
+
+[sub_resource type="ShaderMaterial" id=21]
+shader = ExtResource( 6 )
 
 [sub_resource type="ShaderMaterial" id=4]
 shader = ExtResource( 4 )
@@ -21,13 +30,40 @@ shader_param/background = Color( 0.1, 0.1, 0.1, 1 )
 shader_param/accent = Color( 1, 0, 0, 1 )
 shader_param/position = Vector2( 0.5, 0.5 )
 
-[sub_resource type="ShaderMaterial" id=5]
-shader = ExtResource( 5 )
+[sub_resource type="Gradient" id=25]
+offsets = PoolRealArray( 0, 0.25, 0.75, 1 )
+colors = PoolColorArray( 1, 0, 0, 0, 1, 0, 0, 0.121569, 1, 0, 0, 0.5, 1, 0, 0, 1 )
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="GradientTexture" id=24]
+gradient = SubResource( 25 )
+
+[sub_resource type="DynamicFont" id=26]
+size = 48
+font_data = ExtResource( 5 )
+
+[sub_resource type="Gradient" id=28]
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 0.1 )
+
+[sub_resource type="GradientTexture" id=29]
+gradient = SubResource( 28 )
+
+[sub_resource type="StyleBoxTexture" id=30]
+texture = SubResource( 29 )
+region_rect = Rect2( 0, 0, 2048, 1 )
+
+[sub_resource type="StyleBoxEmpty" id=27]
+
+[sub_resource type="ShaderMaterial" id=33]
+shader = ExtResource( 7 )
+shader_param/angle = 0.0
+shader_param/ring_min = 0.25
+shader_param/ring_max = 0.5
+shader_param/threshold = 0.786
+
+[sub_resource type="Animation" id=34]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("back:modulate")
+tracks/0/path = NodePath("control/info/disconnected/load:material:shader_param/angle")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -36,104 +72,31 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0.25 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("center:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0.25 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("front:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0.25 ) ]
+"values": [ 0.0 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=35]
 resource_name = "main"
 length = 0.75
 loop = true
-step = 0.25
+step = 0.05
 tracks/0/type = "value"
-tracks/0/path = NodePath("back:modulate")
+tracks/0/path = NodePath("control/info/disconnected/load:material:shader_param/angle")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.25, 0.75 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.25 ), Color( 1, 1, 1, 0.25 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("center:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 1,
-"values": [ Color( 1, 1, 1, 0.25 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.25 ), Color( 1, 1, 1, 0.25 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("front:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.5, 0.75 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ Color( 1, 1, 1, 0.25 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.25 ) ]
+"times": PoolRealArray( 0, 0.75 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -1.571, 1.571 ]
 }
 
-[sub_resource type="ShaderMaterial" id=3]
-shader = ExtResource( 3 )
-shader_param/background = Color( 0.1, 0.1, 0.1, 1 )
-shader_param/accent = Color( 1, 0, 0, 1 )
-shader_param/position = Vector2( 0.5, 0.5 )
-
-[sub_resource type="Gradient" id=23]
-offsets = PoolRealArray( 0, 0.25, 0.5, 0.75, 1 )
-colors = PoolColorArray( 1, 0, 0, 1, 1, 0, 0, 0.5, 1, 0, 0, 0.25, 1, 0, 0, 0.5, 1, 0, 0, 1 )
-
-[sub_resource type="GradientTexture" id=24]
-gradient = SubResource( 23 )
-
-[sub_resource type="DynamicFont" id=11]
-size = 36
-font_data = ExtResource( 6 )
-
-[sub_resource type="StyleBoxFlat" id=13]
-bg_color = Color( 1, 0, 0, 0.74902 )
-
-[sub_resource type="StyleBoxFlat" id=12]
-bg_color = Color( 1, 0, 0, 0.5 )
-
-[sub_resource type="StyleBoxEmpty" id=15]
-
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=32]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("../disconnected/connect:disabled")
+tracks/0/path = NodePath("connect:disabled")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -145,7 +108,7 @@ tracks/0/keys = {
 "values": [ false ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("../disconnected/connect:anchor_left")
+tracks/1/path = NodePath("connect:margin_top")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -154,10 +117,10 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 0.25 ]
+"values": [ 0.0 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("../disconnected/connect:anchor_right")
+tracks/2/path = NodePath("connect:margin_bottom")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -166,10 +129,10 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 0.75 ]
+"values": [ 0.0 ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("../disconnected/connect:visible")
+tracks/3/path = NodePath("load:modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -178,130 +141,218 @@ tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ true ]
+"values": [ Color( 1, 1, 1, 0 ) ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("../disconnected/load/texture:modulate")
+tracks/4/path = NodePath("connect:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=31]
+resource_name = "main"
+length = 0.15
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("connect:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("connect:margin_top")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.15 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 128.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("connect:margin_bottom")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.15 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 128.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("load:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.15 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("connect:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.15 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.25 ) ]
+}
+
+[sub_resource type="Animation" id=23]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("redify:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("info/disconnected:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("info/disconnected/background:anchor_left")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("info/disconnected/connect:anchor_left")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="Animation" id=22]
+resource_name = "main"
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("redify:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("info/disconnected:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("info/disconnected/background:anchor_left")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+
+[sub_resource type="DynamicFont" id=36]
+size = 64
+font_data = ExtResource( 5 )
+
+[sub_resource type="Animation" id=38]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=18]
+[sub_resource type="Animation" id=37]
 resource_name = "main"
-length = 0.375
-step = 0.025
-tracks/0/type = "value"
-tracks/0/path = NodePath("../disconnected/connect:disabled")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.025 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, true ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("../disconnected/connect:anchor_left")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.025, 0.225 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ 0.25, 0.25, 0.5 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("../disconnected/connect:anchor_right")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.025, 0.225 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ 0.75, 0.75, 0.5 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("../disconnected/connect:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.225, 0.25 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ true, true, false ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("../disconnected/load/texture:modulate")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0, 0.175, 0.375 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
-
-[sub_resource type="ShaderMaterial" id=19]
-shader = ExtResource( 7 )
-shader_param/angle = 0.0
-shader_param/ring_min = 0.25
-shader_param/ring_max = 0.5
-shader_param/threshold = 0.785
-
-[sub_resource type="Animation" id=22]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-
-[sub_resource type="Animation" id=21]
-resource_name = "main"
-length = 0.75
-loop = true
+length = 1.1
 step = 0.05
 tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_rotation")
+tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.75 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.3, 0.9, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 0.0, 360.0 ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=39]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("acceleration/background:material:shader_param/accent")
+tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -310,240 +361,38 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Color( 1, 0, 0, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("info/background:material:shader_param/accent")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 0, 0, 1 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("turn/background:material:shader_param/accent")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 0, 0, 1 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("../disconnected/background:anchor_left")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.0 ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("../disconnected/background:anchor_top")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.425 ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("../disconnected/background:anchor_right")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 1.0 ]
-}
-tracks/6/type = "value"
-tracks/6/path = NodePath("../disconnected/background:anchor_bottom")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 0.575 ]
-}
-tracks/7/type = "value"
-tracks/7/path = NodePath("../disconnected/connect:visible")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/8/type = "value"
-tracks/8/path = NodePath("../disconnected/connect:modulate")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
-}
-tracks/9/type = "value"
-tracks/9/path = NodePath("../disconnected/fade:modulate")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=40]
 resource_name = "main"
-length = 0.325
-step = 0.013
+length = 1.1
+step = 0.05
 tracks/0/type = "value"
-tracks/0/path = NodePath("acceleration/background:material:shader_param/accent")
+tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.15, 0.325 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.3, 0.9, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 0, 1, 0, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 0, 0, 1 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath("info/background:material:shader_param/accent")
+tracks/1/type = "method"
+tracks/1/path = NodePath("../../..")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.15, 0.325 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 0, 1, 0, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 0, 0, 1 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("turn/background:material:shader_param/accent")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.15, 0.325 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 0, 1, 0, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 0, 0, 1 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("../disconnected/background:anchor_left")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.2, 0.325 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ 0.475, 0.475, 0.0 ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("../disconnected/background:anchor_top")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0, 0.125, 0.325 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ 0.5, 0.425, 0.425 ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("../disconnected/background:anchor_right")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0, 0.2, 0.325 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ 0.525, 0.525, 1.0 ]
-}
-tracks/6/type = "value"
-tracks/6/path = NodePath("../disconnected/background:anchor_bottom")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"times": PoolRealArray( 0, 0.125, 0.325 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ 0.5, 0.575, 0.575 ]
-}
-tracks/7/type = "value"
-tracks/7/path = NodePath("../disconnected/connect:visible")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"times": PoolRealArray( 0, 0.225, 0.25 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ false, false, true ]
-}
-tracks/8/type = "value"
-tracks/8/path = NodePath("../disconnected/connect:modulate")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
-"times": PoolRealArray( 0, 0.25, 0.325 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
-tracks/9/type = "value"
-tracks/9/path = NodePath("../disconnected/fade:modulate")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/keys = {
-"times": PoolRealArray( 0, 0.325 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "disconnected"
+} ]
 }
 
 [node name="main" type="Control"]
@@ -573,72 +422,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="info" type="Control" parent="control"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -448.0
-margin_top = -448.0
-margin_right = 448.0
-margin_bottom = 448.0
-mouse_filter = 2
-
-[node name="background" type="ColorRect" parent="control/info"]
-material = SubResource( 4 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-
-[node name="arrow" type="Control" parent="control/info"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="front" type="ColorRect" parent="control/info/arrow"]
-modulate = Color( 1, 1, 1, 0.25 )
-material = SubResource( 5 )
-margin_left = -64.0
-margin_top = -112.0
-margin_right = 64.0
-margin_bottom = 16.0
-mouse_filter = 2
-
-[node name="center" type="ColorRect" parent="control/info/arrow"]
-modulate = Color( 1, 1, 1, 0.25 )
-material = SubResource( 5 )
-margin_left = -64.0
-margin_top = -64.0
-margin_right = 64.0
-margin_bottom = 64.0
-mouse_filter = 2
-
-[node name="back" type="ColorRect" parent="control/info/arrow"]
-modulate = Color( 1, 1, 1, 0.25 )
-material = SubResource( 5 )
-margin_left = -64.0
-margin_top = -16.0
-margin_right = 64.0
-margin_bottom = 112.0
-mouse_filter = 2
-
-[node name="animation" type="AnimationPlayer" parent="control/info/arrow"]
-anims/RESET = SubResource( 7 )
-anims/main = SubResource( 6 )
-
-[node name="log" type="VBoxContainer" parent="control/info"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-size_flags_horizontal = 3
-custom_constants/separation = 0
-alignment = 2
-
 [node name="turn" type="Control" parent="control"]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -656,94 +439,151 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="disconnected" type="Control" parent="."]
+[node name="redify" type="ColorRect" parent="control"]
+material = SubResource( 21 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="fade" type="ColorRect" parent="disconnected"]
+[node name="info" type="Control" parent="control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -448.0
+margin_top = -448.0
+margin_right = 448.0
+margin_bottom = 448.0
+mouse_filter = 2
+
+[node name="background" type="ColorRect" parent="control/info"]
+material = SubResource( 4 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-color = Color( 0, 0, 0, 0.74902 )
 
-[node name="background" type="TextureRect" parent="disconnected"]
-anchor_top = 0.425
+[node name="log" type="VBoxContainer" parent="control/info"]
 anchor_right = 1.0
-anchor_bottom = 0.575
+anchor_bottom = 1.0
+mouse_filter = 2
+size_flags_horizontal = 3
+custom_constants/separation = 0
+alignment = 2
+
+[node name="disconnected" type="Control" parent="control/info"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="background" type="TextureRect" parent="control/info/disconnected"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 mouse_filter = 2
 texture = SubResource( 24 )
 expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="connect" type="Button" parent="disconnected"]
-anchor_left = 0.25
-anchor_top = 0.45
-anchor_right = 0.75
-anchor_bottom = 0.55
-mouse_filter = 1
+[node name="connect" type="Button" parent="control/info/disconnected"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
 custom_colors/font_color_focus = Color( 1, 1, 1, 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
 custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
-custom_fonts/font = SubResource( 11 )
-custom_styles/hover = SubResource( 13 )
-custom_styles/pressed = SubResource( 12 )
-custom_styles/focus = SubResource( 15 )
-custom_styles/disabled = SubResource( 12 )
-custom_styles/normal = SubResource( 12 )
-text = "CONNECT"
+custom_fonts/font = SubResource( 26 )
+custom_styles/hover = SubResource( 30 )
+custom_styles/pressed = SubResource( 27 )
+custom_styles/focus = SubResource( 27 )
+custom_styles/disabled = SubResource( 27 )
+custom_styles/normal = SubResource( 27 )
+text = "Connect "
 clip_text = true
+align = 2
 
-[node name="toggle" type="AnimationPlayer" parent="disconnected/connect"]
-root_node = NodePath("../../../control")
-anims/RESET = SubResource( 17 )
-anims/main = SubResource( 18 )
-
-[node name="timer" type="Timer" parent="disconnected/connect"]
+[node name="timer" type="Timer" parent="control/info/disconnected/connect"]
 wait_time = 3.0
 one_shot = true
 
-[node name="load" type="Control" parent="disconnected"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="texture" type="ColorRect" parent="disconnected/load"]
+[node name="load" type="ColorRect" parent="control/info/disconnected"]
 modulate = Color( 1, 1, 1, 0 )
-material = SubResource( 19 )
-margin_left = -64.0
-margin_top = -64.0
-margin_right = 64.0
-margin_bottom = 64.0
+material = SubResource( 33 )
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -320.0
+margin_top = -80.0
+margin_right = -160.0
+margin_bottom = 80.0
 mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="animation" type="AnimationPlayer" parent="disconnected/load"]
+[node name="loop" type="AnimationPlayer" parent="control/info/disconnected/load"]
+root_node = NodePath("../../../../..")
 autoplay = "main"
-anims/RESET = SubResource( 22 )
-anims/main = SubResource( 21 )
+anims/RESET = SubResource( 34 )
+anims/main = SubResource( 35 )
 
-[node name="toggle" type="AnimationPlayer" parent="disconnected"]
-root_node = NodePath("../../control")
-anims/RESET = SubResource( 9 )
-anims/main = SubResource( 8 )
+[node name="toggle_connecting" type="AnimationPlayer" parent="control/info/disconnected"]
+anims/RESET = SubResource( 32 )
+anims/main = SubResource( 31 )
+
+[node name="toggle_connected" type="AnimationPlayer" parent="control/info/disconnected"]
+root_node = NodePath("../../..")
+anims/RESET = SubResource( 23 )
+anims/main = SubResource( 22 )
+
+[node name="connected" type="Control" parent="control/info"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="background" type="ColorRect" parent="control/info/connected"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0, 1, 0, 0.1 )
+
+[node name="text" type="Label" parent="control/info/connected"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_colors/font_color = Color( 0, 1, 0, 1 )
+custom_fonts/font = SubResource( 36 )
+text = "CONNECTED"
+align = 1
+valign = 1
+
+[node name="show" type="AnimationPlayer" parent="control/info/connected"]
+anims/RESET = SubResource( 38 )
+anims/main = SubResource( 37 )
+
+[node name="disconnecting" type="Control" parent="control/info"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="background" type="ColorRect" parent="control/info/disconnecting"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 1, 0, 0, 0.101961 )
+
+[node name="text" type="Label" parent="control/info/disconnecting"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_fonts/font = SubResource( 36 )
+text = "DISCONNECTED"
+align = 1
+valign = 1
+
+[node name="show" type="AnimationPlayer" parent="control/info/disconnecting"]
+anims/RESET = SubResource( 39 )
+anims/main = SubResource( 40 )
 
 [node name="connector" type="Node" parent="."]
 script = ExtResource( 8 )
 
-[connection signal="pressed" from="disconnected/connect" to="." method="attempt_connect"]
-[connection signal="timeout" from="disconnected/connect/timer" to="." method="attempt_connect_timeout"]
+[connection signal="pressed" from="control/info/disconnected/connect" to="." method="attempt_connect"]
+[connection signal="timeout" from="control/info/disconnected/connect/timer" to="." method="attempt_connect_timeout"]

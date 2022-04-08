@@ -23,29 +23,29 @@ var touches   := {}
 
 
 func set_state(value : int) -> void:
-	if (get_node_or_null("disconnected")):
+	if (get_node_or_null("control/info/disconnected") && get_node_or_null("connector")):
 		if (state == State.Disconnected && value == State.Connecting):
-			add_log("*", "Connecting...", COLOUR_INFO)
-			$disconnected/connect/toggle.play("main")
-			$disconnected/connect/timer.start()
+			add_log("=", "Connecting...", COLOUR_INFO)
+			$control/info/disconnected/toggle_connecting.play("main")
+			$control/info/disconnected/connect/timer.start()
 			if ($connector.script.library.get_current_library_path() != ""):
 				$connector.connecting = true
 		elif (state == State.Connecting && value == State.Disconnected):
 			add_log("x", "Connection Timeout", COLOUR_ERROR)
-			$disconnected/connect/toggle.play_backwards("main")
-			$disconnected/connect/timer.stop()
+			$control/info/disconnected/toggle_connecting.play_backwards("main")
+			$control/info/disconnected/connect/timer.stop()
 			if ($connector.script.library.get_current_library_path() != ""):
 				$connector.connecting = false
 		elif (state == State.Connecting && value == State.Connected):
 			add_log("+", "Connection Established", COLOUR_CONNECTED)
-			$disconnected/connect/toggle.play_backwards("main")
-			$disconnected/toggle.play_backwards("main")
-			$disconnected/connect/timer.stop()
+			$control/info/disconnected/toggle_connected.play("main")
+			$control/info/connected/show.play("main")
+			$control/info/disconnected/connect/timer.stop()
 			if ($connector.script.library.get_current_library_path() != ""):
 				$connector.connecting = false
 		elif (state == State.Connected && value == State.Disconnected):
 			add_log("-", "Disconnected", COLOUR_INFO)
-			$disconnected/toggle.play("main")
+			$control/info/disconnecting/show.play("main")
 	state = value
 
 func attempt_connect() -> void:
@@ -61,8 +61,12 @@ func connection_lost() -> void:
 	add_log("x", "Connection Lost", COLOUR_ERROR)
 	set_state(State.Disconnected)
 
-func disconnected() -> void:
+func disconnecting() -> void:
 	set_state(State.Disconnected)
+
+func disconnected() -> void:
+	$control/info/disconnected/toggle_connecting.seek(0, true)
+	$control/info/disconnected/toggle_connected.play_backwards("main")
 
 
 

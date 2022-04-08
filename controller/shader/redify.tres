@@ -1,0 +1,19 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type canvas_item;
+
+
+
+void fragment() {
+	vec4 colour = texture(SCREEN_TEXTURE, SCREEN_UV);
+	COLOR = mix(
+		vec4(
+			(colour.r + colour.g + colour.b) / 3.0,
+			0.0, 0.0, 1.0
+		),
+		vec4(1.0, 0.0, 0.0, 1.0),
+		0.25
+	);
+}
+"
