@@ -358,7 +358,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 0.25 ]
+"values": [ 0.425 ]
 }
 tracks/5/type = "value"
 tracks/5/path = NodePath("../disconnected/background:anchor_right")
@@ -382,7 +382,7 @@ tracks/6/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 0.75 ]
+"values": [ 0.575 ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("../disconnected/connect:visible")
@@ -468,10 +468,10 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.125, 0.2, 0.325 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.325 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 0.475, 0.475, 0.475, 0.0 ]
+"values": [ 0.475, 0.475, 0.0 ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("../disconnected/background:anchor_top")
@@ -480,10 +480,10 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 0.125, 0.2, 0.325 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.125, 0.325 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 0.5, 0.25, 0.25, 0.25 ]
+"values": [ 0.5, 0.425, 0.425 ]
 }
 tracks/5/type = "value"
 tracks/5/path = NodePath("../disconnected/background:anchor_right")
@@ -492,10 +492,10 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 0.125, 0.2, 0.325 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.325 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 0.525, 0.525, 0.525, 1.0 ]
+"values": [ 0.525, 0.525, 1.0 ]
 }
 tracks/6/type = "value"
 tracks/6/path = NodePath("../disconnected/background:anchor_bottom")
@@ -504,10 +504,10 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 0.125, 0.2, 0.325 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.125, 0.325 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 0.5, 0.75, 0.75, 0.75 ]
+"values": [ 0.5, 0.575, 0.575 ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("../disconnected/connect:visible")
@@ -551,9 +551,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 rect_pivot_offset = Vector2( 2035, 169 )
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="control" type="Control" parent="."]
 anchor_right = 1.0
@@ -639,11 +636,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 size_flags_horizontal = 3
-custom_constants/separation = -10
+custom_constants/separation = 0
 alignment = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="turn" type="Control" parent="control"]
 anchor_left = 0.5
@@ -675,14 +669,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 color = Color( 0, 0, 0, 0.74902 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="background" type="TextureRect" parent="disconnected"]
-anchor_top = 0.25
+anchor_top = 0.425
 anchor_right = 1.0
-anchor_bottom = 0.75
+anchor_bottom = 0.575
 mouse_filter = 2
 texture = SubResource( 24 )
 expand = true
@@ -707,11 +698,8 @@ custom_styles/pressed = SubResource( 12 )
 custom_styles/focus = SubResource( 15 )
 custom_styles/disabled = SubResource( 12 )
 custom_styles/normal = SubResource( 12 )
-text = "ATTEMPT CONNECT"
+text = "CONNECT"
 clip_text = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="toggle" type="AnimationPlayer" parent="disconnected/connect"]
 root_node = NodePath("../../../control")
@@ -759,6 +747,3 @@ script = ExtResource( 8 )
 
 [connection signal="pressed" from="disconnected/connect" to="." method="attempt_connect"]
 [connection signal="timeout" from="disconnected/connect/timer" to="." method="attempt_connect_timeout"]
-[connection signal="connected" from="connector" to="." method="connected"]
-[connection signal="connection_lost" from="connector" to="." method="connection_lost"]
-[connection signal="disconnected" from="connector" to="." method="disconnected"]

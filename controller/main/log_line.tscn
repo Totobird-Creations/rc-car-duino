@@ -78,7 +78,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.1, 0.2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, 48 ), Vector2( 0, 48 ) ]
+"values": [ Vector2( 0, 0 ), Vector2( 0, 38 ), Vector2( 0, 38 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:modulate")
@@ -100,21 +100,24 @@ margin_right = 2048.0
 margin_bottom = 1168.0
 mouse_filter = 2
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="text" type="Label" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_colors/font_color = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 64.0
 custom_fonts/font = SubResource( 25 )
 text = "Log Text"
 valign = 1
 clip_text = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+
+[node name="icon" type="Label" parent="."]
+anchor_bottom = 1.0
+margin_right = 64.0
+custom_fonts/font = SubResource( 25 )
+text = "+"
+align = 1
+valign = 1
+clip_text = true
 
 [node name="animation" type="AnimationPlayer" parent="."]
 autoplay = "show"

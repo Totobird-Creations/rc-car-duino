@@ -4,6 +4,11 @@ extends Control
 
 const LOG_LINE : PackedScene = preload('res://main/log_line.tscn')
 
+const COLOUR_INFO      : Color = Color(1.0, 0.75, 0.0)
+const COLOUR_CONNECTED : Color = Color(0.0, 1.0, 0.25)
+const COLOUR_ERROR     : Color = Color(1.0, 0.0, 0.25)
+const COLOUR_DEBUG     : Color = Color(0.5, 0.5, 0.5)
+
 
 
 enum State {
@@ -13,46 +18,50 @@ enum State {
 }
 export(int, 'Disconnected', 'Connecting', 'Connected') var state : int = State.Disconnected setget set_state
 
-var touches : = {}
+var touches   := {}
 
 
 
 func set_state(value : int) -> void:
 	if (get_node_or_null("disconnected")):
 		if (state == State.Disconnected && value == State.Connecting):
+			add_log("*", "Connecting...", COLOUR_INFO)
 			$disconnected/connect/toggle.play("main")
 			$disconnected/connect/timer.start()
-			$connector.connecting = true
+			if ($connector.script.library.get_current_library_path() != ""):
+				$connector.connecting = true
 		elif (state == State.Connecting && value == State.Disconnected):
+			add_log("x", "Connection Timeout", COLOUR_ERROR)
 			$disconnected/connect/toggle.play_backwards("main")
 			$disconnected/connect/timer.stop()
-			$connector.connecting = false
+			if ($connector.script.library.get_current_library_path() != ""):
+				$connector.connecting = false
 		elif (state == State.Connecting && value == State.Connected):
+			add_log("+", "Connection Established", COLOUR_CONNECTED)
 			$disconnected/connect/toggle.play_backwards("main")
 			$disconnected/toggle.play_backwards("main")
 			$disconnected/connect/timer.stop()
-			$connector.connecting = false
+			if ($connector.script.library.get_current_library_path() != ""):
+				$connector.connecting = false
 		elif (state == State.Connected && value == State.Disconnected):
+			add_log("-", "Disconnected", COLOUR_INFO)
 			$disconnected/toggle.play("main")
 	state = value
 
 func attempt_connect() -> void:
-	add_log("Connecting...")
 	set_state(State.Connecting)
 
 func attempt_connect_timeout() -> void:
-	add_log("Connection Timout")
 	set_state(State.Disconnected)
 
 func connected() -> void:
-	add_log("Connection Established")
 	set_state(State.Connected)
 
 func connection_lost() -> void:
-	add_log("Connection Lost")
+	add_log("x", "Connection Lost", COLOUR_ERROR)
+	set_state(State.Disconnected)
 
 func disconnected() -> void:
-	add_log("Disconnected")
 	set_state(State.Disconnected)
 
 
@@ -113,10 +122,12 @@ func _input(event : InputEvent) -> void:
 
 
 
-func add_log(text : String) -> void:
+func add_log(icon : String, text : String, colour : Color) -> void:
 	var max_logs := 10
 	var instance := LOG_LINE.instance()
 	instance.set_text(text)
+	instance.set_icon(icon)
+	instance.set_colour(colour)
 	$control/info/log.add_child(instance)
 	if ($control/info/log.get_child_count() > max_logs):
 		for i in range($control/info/log.get_child_count() - max_logs):
