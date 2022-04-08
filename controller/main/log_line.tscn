@@ -121,10 +121,3 @@ autoplay = "show"
 anims/RESET = SubResource( 27 )
 anims/hide = SubResource( 28 )
 anims/show = SubResource( 26 )
-
-[node name="timer" type="Timer" parent="."]
-wait_time = 10.0
-one_shot = true
-autostart = true
-
-[connection signal="timeout" from="timer" to="." method="hide"]

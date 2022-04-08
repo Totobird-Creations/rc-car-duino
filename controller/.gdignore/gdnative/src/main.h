@@ -23,6 +23,10 @@ namespace godot {
         void _init();
 
         void attempt_connect();
+        void attempt_connect_timeout();
+        void disconnect();
+        void connected();
+        void connection_lost();
     };
 
 }

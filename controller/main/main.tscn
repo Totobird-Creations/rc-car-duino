@@ -408,6 +408,18 @@ tracks/8/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
+tracks/9/type = "value"
+tracks/9/path = NodePath("../disconnected/fade:modulate")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
 
 [sub_resource type="Animation" id=8]
 resource_name = "main"
@@ -520,6 +532,18 @@ tracks/8/keys = {
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("../disconnected/fade:modulate")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 0.325 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [node name="main" type="Control"]
@@ -646,6 +670,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="fade" type="ColorRect" parent="disconnected"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 0.74902 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="background" type="TextureRect" parent="disconnected"]
 anchor_top = 0.25
 anchor_right = 1.0
@@ -653,6 +686,9 @@ anchor_bottom = 0.75
 mouse_filter = 2
 texture = SubResource( 24 )
 expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="connect" type="Button" parent="disconnected"]
 anchor_left = 0.25
@@ -724,4 +760,5 @@ script = ExtResource( 8 )
 [connection signal="pressed" from="disconnected/connect" to="." method="attempt_connect"]
 [connection signal="timeout" from="disconnected/connect/timer" to="." method="attempt_connect_timeout"]
 [connection signal="connected" from="connector" to="." method="connected"]
+[connection signal="connection_lost" from="connector" to="." method="connection_lost"]
 [connection signal="disconnected" from="connector" to="." method="disconnected"]

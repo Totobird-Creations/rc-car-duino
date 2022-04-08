@@ -48,8 +48,11 @@ func connected() -> void:
 	add_log("Connection Established")
 	set_state(State.Connected)
 
-func disconnected() -> void:
+func connection_lost() -> void:
 	add_log("Connection Lost")
+
+func disconnected() -> void:
+	add_log("Disconnected")
 	set_state(State.Disconnected)
 
 
