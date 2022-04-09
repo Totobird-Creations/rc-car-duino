@@ -18,7 +18,8 @@ enum State {
 }
 export(int, 'Disconnected', 'Connecting', 'Connected') var state : int = State.Disconnected setget set_state
 
-var touches   := {}
+var touches        := {}
+var library_active := false
 
 
 
@@ -29,20 +30,18 @@ func set_state(value : int) -> void:
 			$control/info/disconnected/toggle_connecting.play("main")
 			$control/info/disconnected/connect/timer.start()
 			if ($connector.script.library.get_current_library_path() != ""):
-				$connector.connecting = true
+				$connector.attempt_connect()
 		elif (state == State.Connecting && value == State.Disconnected):
 			add_log("x", "Connection Timeout", COLOUR_ERROR)
 			$control/info/disconnected/toggle_connecting.play_backwards("main")
 			$control/info/disconnected/connect/timer.stop()
-			if ($connector.script.library.get_current_library_path() != ""):
-				$connector.connecting = false
+			if (library_active):
+				$connector.attempt_connect_timeout()
 		elif (state == State.Connecting && value == State.Connected):
 			add_log("+", "Connection Established", COLOUR_CONNECTED)
 			$control/info/disconnected/toggle_connected.play("main")
 			$control/info/connected/show.play("main")
 			$control/info/disconnected/connect/timer.stop()
-			if ($connector.script.library.get_current_library_path() != ""):
-				$connector.connecting = false
 		elif (state == State.Connected && value == State.Disconnected):
 			add_log("-", "Disconnected", COLOUR_INFO)
 			$control/info/disconnecting/show.play("main")
@@ -67,6 +66,11 @@ func disconnecting() -> void:
 func disconnected() -> void:
 	$control/info/disconnected/toggle_connecting.seek(0, true)
 	$control/info/disconnected/toggle_connected.play_backwards("main")
+
+
+
+func _ready() -> void:
+	library_active = $connector.script.library.get_current_library_path() != ""
 
 
 

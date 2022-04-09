@@ -7,9 +7,8 @@ using namespace godot;
 
 
 void Gdnative::_register_methods() {
-    register_method("attempt_connect", &Gdnative::attempt_connect);
-
-    register_property<Gdnative, bool>("connecting", &Gdnative::connecting, false);
+    register_method( "attempt_connect"         , &Gdnative::attempt_connect         );
+    register_method( "attempt_connect_timeout" , &Gdnative::attempt_connect_timeout );
 
     register_signal<Gdnative>((char *)"connected");
     register_signal<Gdnative>((char *)"connection_lost");
